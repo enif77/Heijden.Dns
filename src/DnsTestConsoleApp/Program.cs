@@ -9,8 +9,8 @@ namespace DnsTestConsoleApp
         {
             DnsTest dnsTest = new DnsTest();
 
-            Console.WriteLine("CERT Records for: direct.sitenv.org");
-            WriteList(dnsTest.CertRecords("direct.sitenv.org"));
+            Console.WriteLine("CERT Records for: google.com");
+            WriteList(dnsTest.CertRecords("google.com"));
 
             //Console.WriteLine("Available QTypes");
             //WriteList(dnsTest.GetQTypes());

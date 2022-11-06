@@ -7,8 +7,8 @@ using System.Net.Sockets;
 
 using System.Net.NetworkInformation;
 
-using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
+//using System.Diagnostics;
+//using System.Runtime.Remoting.Messaging;
 
 
 /*
@@ -396,9 +396,10 @@ namespace Heijden.DNS
 
 					try
 					{
-						IAsyncResult result = tcpClient.BeginConnect(m_DnsServers[intDnsServer].Address, m_DnsServers[intDnsServer].Port, null, null);
+						IAsyncResult result = tcpClient.BeginConnect(m_DnsServers[intDnsServer].Address,
+							m_DnsServers[intDnsServer].Port, null, null);
 
-						bool success = result.AsyncWaitHandle.WaitOne(m_Timeout*1000, true);
+						bool success = result.AsyncWaitHandle.WaitOne(m_Timeout * 1000, true);
 
 						if (!success || !tcpClient.Connected)
 						{
@@ -410,8 +411,8 @@ namespace Heijden.DNS
 						BufferedStream bs = new BufferedStream(tcpClient.GetStream());
 
 						byte[] data = request.Data;
-						bs.WriteByte((byte)((data.Length >> 8) & 0xff));
-						bs.WriteByte((byte)(data.Length & 0xff));
+						bs.WriteByte((byte) ((data.Length >> 8) & 0xff));
+						bs.WriteByte((byte) (data.Length & 0xff));
 						bs.Write(data, 0, data.Length);
 						bs.Flush();
 
@@ -450,21 +451,21 @@ namespace Heijden.DNS
 
 							// Zone transfer!!
 
-							if(TransferResponse.Questions.Count==0)
+							if (TransferResponse.Questions.Count == 0)
 								TransferResponse.Questions.AddRange(response.Questions);
 							TransferResponse.Answers.AddRange(response.Answers);
 							TransferResponse.Authorities.AddRange(response.Authorities);
 							TransferResponse.Additionals.AddRange(response.Additionals);
 
 							if (response.Answers[0].Type == Type.SOA)
-									intSoa++;
+								intSoa++;
 
 							if (intSoa == 2)
 							{
-								TransferResponse.header.QDCOUNT = (ushort)TransferResponse.Questions.Count;
-								TransferResponse.header.ANCOUNT = (ushort)TransferResponse.Answers.Count;
-								TransferResponse.header.NSCOUNT = (ushort)TransferResponse.Authorities.Count;
-								TransferResponse.header.ARCOUNT = (ushort)TransferResponse.Additionals.Count;
+								TransferResponse.header.QDCOUNT = (ushort) TransferResponse.Questions.Count;
+								TransferResponse.header.ANCOUNT = (ushort) TransferResponse.Answers.Count;
+								TransferResponse.header.NSCOUNT = (ushort) TransferResponse.Authorities.Count;
+								TransferResponse.header.ARCOUNT = (ushort) TransferResponse.Additionals.Count;
 								TransferResponse.MessageSize = intMessageSize;
 								return TransferResponse;
 							}
@@ -679,8 +680,10 @@ namespace Heijden.DNS
 		/// <returns>An System.IAsyncResult instance that references the asynchronous request.</returns>
 		public IAsyncResult BeginGetHostAddresses(string hostNameOrAddress, AsyncCallback requestCallback, object stateObject)
 		{
-			GetHostAddressesDelegate g = new GetHostAddressesDelegate(GetHostAddresses);
-			return g.BeginInvoke(hostNameOrAddress, requestCallback, stateObject);
+			throw new NotImplementedException("The BeginGetHostAddresses() method is not available in .NET Core.");
+
+			// GetHostAddressesDelegate g = new GetHostAddressesDelegate(GetHostAddresses);
+			// return g.BeginInvoke(hostNameOrAddress, requestCallback, stateObject);
 		}
 
 		/// <summary>
@@ -693,9 +696,11 @@ namespace Heijden.DNS
 		/// <returns></returns>
 		public IPAddress[] EndGetHostAddresses(IAsyncResult AsyncResult)
 		{
-			AsyncResult aResult = (AsyncResult)AsyncResult;
-			GetHostAddressesDelegate g = (GetHostAddressesDelegate)aResult.AsyncDelegate;
-			return g.EndInvoke(AsyncResult);
+			throw new NotImplementedException("The EndGetHostAddresses() method is not available in .NET Core.");
+			
+			// AsyncResult aResult = (AsyncResult)AsyncResult;
+			// GetHostAddressesDelegate g = (GetHostAddressesDelegate)aResult.AsyncDelegate;
+			// return g.EndInvoke(AsyncResult);
 		}
 
 		/// <summary>
@@ -742,8 +747,10 @@ namespace Heijden.DNS
 		/// <returns>An System.IAsyncResult instance that references the asynchronous request.</returns>
 		public IAsyncResult BeginGetHostByName(string hostName, AsyncCallback requestCallback, object stateObject)
 		{
-			GetHostByNameDelegate g = new GetHostByNameDelegate(GetHostByName);
-			return g.BeginInvoke(hostName, requestCallback, stateObject);
+			throw new NotImplementedException("The BeginGetHostByName() method is not available in .NET Core.");
+			
+			// GetHostByNameDelegate g = new GetHostByNameDelegate(GetHostByName);
+			// return g.BeginInvoke(hostName, requestCallback, stateObject);
 		}
 
 		/// <summary>
@@ -756,9 +763,11 @@ namespace Heijden.DNS
 		/// <returns></returns>
 		public IPHostEntry EndGetHostByName(IAsyncResult AsyncResult)
 		{
-			AsyncResult aResult = (AsyncResult)AsyncResult;
-			GetHostByNameDelegate g = (GetHostByNameDelegate)aResult.AsyncDelegate;
-			return g.EndInvoke(AsyncResult);
+			throw new NotImplementedException("The EndGetHostByName() method is not available in .NET Core.");
+			
+			// AsyncResult aResult = (AsyncResult)AsyncResult;
+			// GetHostByNameDelegate g = (GetHostByNameDelegate)aResult.AsyncDelegate;
+			// return g.EndInvoke(AsyncResult);
 		}
 
 		/// <summary>
@@ -790,8 +799,10 @@ namespace Heijden.DNS
 		/// <returns>An System.IAsyncResult instance that references the asynchronous request.</returns>
 		public IAsyncResult BeginResolve(string hostName, AsyncCallback requestCallback, object stateObject)
 		{
-			ResolveDelegate g = new ResolveDelegate(Resolve);
-			return g.BeginInvoke(hostName, requestCallback, stateObject);
+			throw new NotImplementedException("The BeginResolve() method is not available in .NET Core.");
+			
+			// ResolveDelegate g = new ResolveDelegate(Resolve);
+			// return g.BeginInvoke(hostName, requestCallback, stateObject);
 		}
 
 		/// <summary>
@@ -804,9 +815,11 @@ namespace Heijden.DNS
 		/// <returns>An System.Net.IPHostEntry object that contains DNS information about a host.</returns>
 		public IPHostEntry EndResolve(IAsyncResult AsyncResult)
 		{
-			AsyncResult aResult = (AsyncResult)AsyncResult;
-			ResolveDelegate g = (ResolveDelegate)aResult.AsyncDelegate;
-			return g.EndInvoke(AsyncResult);
+			throw new NotImplementedException("The EndResolve() method is not available in .NET Core.");
+			
+			// AsyncResult aResult = (AsyncResult)AsyncResult;
+			// ResolveDelegate g = (ResolveDelegate)aResult.AsyncDelegate;
+			// return g.EndInvoke(AsyncResult);
 		}
 		#endregion
 
@@ -881,8 +894,10 @@ namespace Heijden.DNS
 		/// <returns>An System.IAsyncResult instance that references the asynchronous request.</returns>
 		public IAsyncResult BeginGetHostEntry(IPAddress ip, AsyncCallback requestCallback, object stateObject)
 		{
-			GetHostEntryViaIPDelegate g = new GetHostEntryViaIPDelegate(GetHostEntry);
-			return g.BeginInvoke(ip, requestCallback, stateObject);
+			throw new NotImplementedException("The BeginGetHostEntry() method is not available in .NET Core.");
+			
+			// GetHostEntryViaIPDelegate g = new GetHostEntryViaIPDelegate(GetHostEntry);
+			// return g.BeginInvoke(ip, requestCallback, stateObject);
 		}
 
 		/// <summary>
@@ -898,18 +913,20 @@ namespace Heijden.DNS
 		///</returns>
 		public IPHostEntry EndGetHostEntry(IAsyncResult AsyncResult)
 		{
-			AsyncResult aResult = (AsyncResult)AsyncResult;
-			if (aResult.AsyncDelegate is GetHostEntryDelegate)
-			{
-				GetHostEntryDelegate g = (GetHostEntryDelegate)aResult.AsyncDelegate;
-				return g.EndInvoke(AsyncResult);
-			}
-			if (aResult.AsyncDelegate is GetHostEntryViaIPDelegate)
-			{
-				GetHostEntryViaIPDelegate g = (GetHostEntryViaIPDelegate)aResult.AsyncDelegate;
-				return g.EndInvoke(AsyncResult);
-			}
-			return null;
+			throw new NotImplementedException("The EndGetHostEntry() method is not available in .NET Core.");
+			
+			// AsyncResult aResult = (AsyncResult)AsyncResult;
+			// if (aResult.AsyncDelegate is GetHostEntryDelegate)
+			// {
+			// 	GetHostEntryDelegate g = (GetHostEntryDelegate)aResult.AsyncDelegate;
+			// 	return g.EndInvoke(AsyncResult);
+			// }
+			// if (aResult.AsyncDelegate is GetHostEntryViaIPDelegate)
+			// {
+			// 	GetHostEntryViaIPDelegate g = (GetHostEntryViaIPDelegate)aResult.AsyncDelegate;
+			// 	return g.EndInvoke(AsyncResult);
+			// }
+			// return null;
 		}
 
 		private enum RRRecordStatus
